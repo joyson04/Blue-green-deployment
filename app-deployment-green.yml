@@ -16,10 +16,16 @@ spec:
     spec:
       containers:
       - name: post-blog
-        image: aravindh05/post-blog
+        image: aravindh05/green-deployment:v2
         ports:
         - containerPort: 5000
         env:
         - name: mongo_uri
           value: "mongodb://mongo-service:27017/blogdb"
-
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "500m"
+          limits:
+            memory: "1000Mi"
+            cpu: "1000m"
