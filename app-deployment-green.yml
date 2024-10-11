@@ -15,7 +15,7 @@ spec:
         version: green
     spec:
       containers:
-      - name: post-blog
+      - name: post-blogs
         image: aravindh05/post-blog
         ports:
         - containerPort: 5000
