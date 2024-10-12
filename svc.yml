@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: blog-app
+  name: service-deploy
 spec:
   selector:
-    app: post-blog
+    app: blue-app
     version: blue
   ports:
     - protocol: TCP
-      port: 5000
+      port: 80
       targetPort: 5000
   type: LoadBalancer
