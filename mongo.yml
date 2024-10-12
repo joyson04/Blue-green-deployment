@@ -1,38 +1,47 @@
+# mongo-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mongodb
+  name: mongo-green-deployment
+  labels:
+    app: mongo-green
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mongodb
+      app: mongo-green
   template:
     metadata:
       labels:
-        app: mongodb
+        app: mongo-green
     spec:
       containers:
-        - name: mongodb
-          image: mongo:latest
-          ports:
-            - containerPort: 27017
-          resources:
-            requests:
-              memory: "1Gi"
-              cpu: "500m"
-            limits:
-              memory: "2Gi"
-              cpu: "1000m"
+      - name: mongo
+        image: mongo  # You can specify the version you need
+        ports:
+        - containerPort: 27017
+        volumeMounts:
+        - name: mongo-storage
+          mountPath: /data/db
+      volumes:
+      - name: mongo-storage
+        persistentVolumeClaim:
+          claimName: mongo-green-pvc
 
 ---
+
+# mongo-service.yaml
 apiVersion: v1
 kind: Service
 metadata:
-  name: mongodb-service
+  name: mongo-service
 spec:
-  ports:
-    - port: 27017
   selector:
-    app: mongodb
-  type: LoadBalancer
+    app: mongo-green
+  ports:
+    - protocol: TCP
+      port: 27017
+      targetPort: 27017
+  type: ClusterIP
+
+
