@@ -1,31 +1,25 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: post-blog-green
+  name: green-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: post-blog
+      app: green-app
       version: green
   template:
     metadata:
       labels:
-        app: post-blog
+        app: green-app
         version: green
     spec:
       containers:
-      - name: post-blogs
-        image: aravindh05/post-blog
+      - name: green-container
+        image: aravindh05/test-green:latest
         ports:
         - containerPort: 5000
         env:
-        - name: mongo_uri
-          value: "mongodb://mongo-service:27017/blogdb"
-        resources:
-          requests:
-            memory: "500Mi"
-            cpu: "500m"
-          limits:
-            memory: "1000Mi"
-            cpu: "1000m"
+        - name: MONGODB_URL
+          value: "mongodb://mongo-service:27017"
+       
