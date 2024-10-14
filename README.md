@@ -2,7 +2,7 @@
   One Type Switch  Traffic:
     
 
-        stage('Switch Traffic') {
+        stage('Switch Traffic First') {
             when {
                 // Boolean expression
                 expression { return params.SWITCH_TRAFFICS }
@@ -23,7 +23,7 @@
 
  second Type Switch Traffic:
 
-        stage('Switch Traffic') {
+        stage('Switch Traffic Second ') {
             when {
                 // Boolean expression
                 expression { return params.SWITCH_TRAFFICS }
