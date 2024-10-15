@@ -14,8 +14,8 @@
                         sh '''
                             kubectl patch service service-deploy -p "{\\"spec\\": {\\"selector\\": {\\"app\\": \\"app\\", \\"version\\": \\"''' + newEnv + '''\\"}}}" -n ${KUBE_NAMESPACE}
                         '''
-                        echo "Traffic has been switched to the ${newEnv} environments : ${newEnv}"
                     }
+                     echo "Traffic has been switched to the ${newEnv} environments : ${newEnv}"
                 }
             }
         }
