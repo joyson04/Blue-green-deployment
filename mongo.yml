@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: mongo
-        image: mongo  # You can specify the version you need
+        image: mongo:latest  # You can specify the version you need
         ports:
         - containerPort: 27017
         volumeMounts:
