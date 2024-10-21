@@ -16,54 +16,22 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/joyson04/Blue-green-deployment.git'
             }
         }
-         stage('Depency Install') {
-            steps {
-                nodejs('node') {
-                    sh "npm install"
-                }
-            }
-        }
 
-        stage('Depency Fix') {
+        stage('Mongod-Volumes') {
             steps {
-                nodejs('node') {
-                    sh "npm audit fix"
-                }
-            }
-        }
-
-        stage('Trivy FS Scan') {
-            steps {
-                 sh "trivy fs --format table -o fs.html ."
-            }
-        }
-
-        stage('Build Blue-Deployment') {
-            steps {
-                script{
-                    sh "docker build -t aravindh05/green-deployment ."
-                }
-            }
-        }
-        stage("Trivy Image Scan"){
-            steps{
-                sh "trivy image  -f table -o results_old.html aravindh05/gren-deployment "
-            }
-        }
-        
-        stage('Docker Push Blue-Deployment ') {
-            steps {
-                script{
-                    withDockerRegistry(credentialsId: 'hub-docker') {
-                        sh "docker push aravindh05/green-deployment" 
-                    }
+                withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
+                    sh """ 
+                        if ! kubectl get pv  -n ${KUBE_NAMESPACE};then
+                            kubectl apply -f volume.yml -n  ${KUBE_NAMESPACE}
+                        fi
+                    """
                 }
             }
         }
 
         stage('Deploy SVC') {
             steps {
-                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: ' kubernetes', credentialsId: 'kubernetes-jenkins', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.95.76:6443') {
+                withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
                     sh """ 
                         if ! kubectl get svc service-deploy -n ${KUBE_NAMESPACE};then
                             kubectl apply -f svc.yml -n  ${KUBE_NAMESPACE}
@@ -82,7 +50,7 @@ pipeline {
                     }else{
                         deploymentApp = "app-deployment-green.yml"
                     }
-                    withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: ' kubernetes', credentialsId: 'kubernetes-jenkins', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.95.76:6443') {
+                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
                         sh "kubectl apply -f mongo.yml -n ${KUBE_NAMESPACE}"
                         sh "kubectl apply -f ${deploymentApp} -n ${KUBE_NAMESPACE}"
                     }  
@@ -94,7 +62,7 @@ pipeline {
             steps {
                script{
                  def verifyEnv = params.DEPLOY_ENV
-                    withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: ' kubernetes', credentialsId: 'kubernetes-jenkins', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.95.76:6443') {
+                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
                         sh """
                             kubectl get pods -l version=${verifyEnv} -n ${KUBE_NAMESPACE}
                             kubectl get svc service-deploy -n ${KUBE_NAMESPACE}
@@ -113,7 +81,7 @@ pipeline {
             steps {
                 script{
                     def newEnv = params.DEPLOY_ENV
-                    withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: ' kubernetes', credentialsId: 'kubernetes-jenkins', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.95.76:6443') {
+                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
                         sh '''
                             kubectl patch service service-deploy -p "{\\"spec\\": {\\"selector\\": {\\"app\\": \\"app\\", \\"version\\": \\"''' + newEnv + '''\\"}}}" -n ${KUBE_NAMESPACE}
                         '''
@@ -131,7 +99,7 @@ pipeline {
             steps {
                 script{
                     def verifyEnv = params.DEPLOY_ENV
-                    withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: ' kubernetes', credentialsId: 'kubernetes-jenkins', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://172.31.95.76:6443') {
+                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
                         sh """
                             kubectl get pods -l version=${verifyEnv} -n ${KUBE_NAMESPACE}
                             kubectl get svc service-deploy -n ${KUBE_NAMESPACE}
