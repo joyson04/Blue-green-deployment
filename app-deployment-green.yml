@@ -21,5 +21,5 @@ spec:
         - containerPort: 5000
         env:
         - name: MONGODB_URL
-          value: "mongodb://mongo-service:27017"
+          value: "mongodb://mongo-service:27017/blogdb"
        
