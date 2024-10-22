@@ -1,26 +1,26 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: mongo-green
+  name: mongo-greens
 spec:
   capacity:
-    storage: 5Gi  # Adjust the size as needed
+    storage: 10Gi  # Adjust the size as needed
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: manual
   hostPath:
     path: /mnt/data/mongo  # Path to store data on the host
 
 ---
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: mongo-green-pvc
 spec:
-  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 5Gi  # Should match the PV size
+      storage: 10Gi
+ 
