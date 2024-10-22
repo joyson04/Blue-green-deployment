@@ -2,7 +2,7 @@ pipeline {
     agent any
     
     environment{
-        KUBE_NAMESPACE = 'webapps'
+        KUBE_NAMESPACE = 'my-namespace'
     }
 
     parameters{
@@ -17,12 +17,12 @@ pipeline {
             }
         }
 
-        stage('Mongod-Volumes') {
+        stage('Mongo DB') {
             steps {
-                withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
+                withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'my-namespace', restrictKubeConfigAccess: false, serverUrl: 'https://9294252C03015B2627857B69FC308140.gr7.us-east-1.eks.amazonaws.com')  {
                     sh """ 
-                        if ! kubectl get pv  -n ${KUBE_NAMESPACE};then
-                            kubectl apply -f volume.yml -n  ${KUBE_NAMESPACE}
+                        if ! kubectl get svc mongo-service -n ${KUBE_NAMESPACE};then
+                            kubectl apply -f mongo.yml -n  ${KUBE_NAMESPACE}
                         fi
                     """
                 }
@@ -31,7 +31,7 @@ pipeline {
 
         stage('Deploy SVC') {
             steps {
-                withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
+                withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'my-namespace', restrictKubeConfigAccess: false, serverUrl: 'https://9294252C03015B2627857B69FC308140.gr7.us-east-1.eks.amazonaws.com')  {
                     sh """ 
                         if ! kubectl get svc service-deploy -n ${KUBE_NAMESPACE};then
                             kubectl apply -f svc.yml -n  ${KUBE_NAMESPACE}
@@ -50,8 +50,7 @@ pipeline {
                     }else{
                         deploymentApp = "app-deployment-green.yml"
                     }
-                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
-                        sh "kubectl apply -f mongo.yml -n ${KUBE_NAMESPACE}"
+                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'my-namespace', restrictKubeConfigAccess: false, serverUrl: 'https://9294252C03015B2627857B69FC308140.gr7.us-east-1.eks.amazonaws.com')  {
                         sh "kubectl apply -f ${deploymentApp} -n ${KUBE_NAMESPACE}"
                     }  
                 } 
@@ -62,7 +61,7 @@ pipeline {
             steps {
                script{
                  def verifyEnv = params.DEPLOY_ENV
-                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
+                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'my-namespace', restrictKubeConfigAccess: false, serverUrl: 'https://9294252C03015B2627857B69FC308140.gr7.us-east-1.eks.amazonaws.com')  {
                         sh """
                             kubectl get pods -l version=${verifyEnv} -n ${KUBE_NAMESPACE}
                             kubectl get svc service-deploy -n ${KUBE_NAMESPACE}
@@ -81,9 +80,9 @@ pipeline {
             steps {
                 script{
                     def newEnv = params.DEPLOY_ENV
-                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
+                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'my-namespace', restrictKubeConfigAccess: false, serverUrl: 'https://9294252C03015B2627857B69FC308140.gr7.us-east-1.eks.amazonaws.com')  {
                         sh '''
-                            kubectl patch service service-deploy -p "{\\"spec\\": {\\"selector\\": {\\"app\\": \\"app\\", \\"version\\": \\"''' + newEnv + '''\\"}}}" -n ${KUBE_NAMESPACE}
+                            kubectl patch svc  service-deploy  -p "{\\"spec\\": {\\"selector\\": {\\"app\\": \\"''' + newEnv + '''-app\\", \\"version\\": \\"''' + newEnv + '''\\"}}}" -n ${KUBE_NAMESPACE}
                         '''
                     }
                      echo "Traffic has been switched to the ${newEnv} environments : ${newEnv}"
@@ -99,7 +98,7 @@ pipeline {
             steps {
                 script{
                     def verifyEnv = params.DEPLOY_ENV
-                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'https://23D9F611757A6BDB04F685B76E1C17C9.gr7.us-east-1.eks.amazonaws.com')  {
+                    withKubeConfig(caCertificate: '', clusterName: 'demos', contextName: '', credentialsId: 'k8-token', namespace: 'my-namespace', restrictKubeConfigAccess: false, serverUrl: 'https://9294252C03015B2627857B69FC308140.gr7.us-east-1.eks.amazonaws.com') {
                         sh """
                             kubectl get pods -l version=${verifyEnv} -n ${KUBE_NAMESPACE}
                             kubectl get svc service-deploy -n ${KUBE_NAMESPACE}
