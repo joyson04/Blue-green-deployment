@@ -69,7 +69,15 @@ Green-deployment-Jenkins:
 
 ![Screenshot from 2024-10-22 13-31-59](https://github.com/user-attachments/assets/8cd97f94-01d9-44fb-adda-3e329c656295)
 
+Switch Traffic:
+
 ![Screenshot from 2024-10-22 13-32-49](https://github.com/user-attachments/assets/50228c49-63c1-4ace-8000-3dff7a62ce59)
+
+Working:
+
+![Screenshot from 2024-10-22 13-33-30](https://github.com/user-attachments/assets/72171d75-5ab9-4ff3-bc9e-bccc69359254)
+
+Vedio:
 
 
 
