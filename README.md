@@ -1,3 +1,7 @@
+Blue Green Deployment:
+
+![blue_gree](https://github.com/user-attachments/assets/59dfe71b-30be-4956-bfea-6b3390ba694d)
+
 
 ![Screenshot from 2024-10-22 13-36-14](https://github.com/user-attachments/assets/c2b22feb-3a59-4559-92cd-ea7817ad347b)
 
