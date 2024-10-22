@@ -1,4 +1,4 @@
-
+![Screenshot from 2024-10-22 13-30-25](https://github.com/user-attachments/assets/83c9b672-1fa2-4518-ab59-2cbe6cb636c7)
   One Type Switch  Traffic:
     
 
@@ -55,3 +55,22 @@ Version:2
 Application Working:
 
 ![Screenshot from 2024-10-22 13-27-14](https://github.com/user-attachments/assets/2168c4da-717e-4001-a83f-7dde32aad8ff)
+
+
+Blue_deploy:
+
+![Screenshot from 2024-10-22 13-30-18](https://github.com/user-attachments/assets/13803186-2fc7-41d9-9b77-9d3a07e34967)
+
+Blue_deploy_working:
+
+![Screenshot from 2024-10-22 13-30-25](https://github.com/user-attachments/assets/d1459f97-15aa-4555-b389-71140a00b287)
+
+Green-deployment-Jenkins:
+
+![Screenshot from 2024-10-22 13-31-59](https://github.com/user-attachments/assets/8cd97f94-01d9-44fb-adda-3e329c656295)
+
+![Screenshot from 2024-10-22 13-32-49](https://github.com/user-attachments/assets/50228c49-63c1-4ace-8000-3dff7a62ce59)
+
+
+
+
