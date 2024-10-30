@@ -1,4 +1,4 @@
-Create Service Account, Role & Assign that role, And create a secret for Service Account and geenrate a Token
+Create a Service Account, Role & Assign that role, And create a secret for the Service Account and generate a Token
 
     kubectl create namespace devops-tools
 
