@@ -48,7 +48,8 @@ Bind the role to service account
 
 
 
-Create Secret for Service Account and Generate Token
+Create Secret for Service Account and Generate Token:
+
 
 After creating the Service Account, Kubernetes will automatically generate a token. To retrieve this token, follow these steps:
 
