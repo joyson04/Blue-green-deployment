@@ -42,6 +42,11 @@ Bind the role to service account
               namespace: devops-tools
 
 
+### Generate token using service account in the namespace
+
+[Create Token](https://kubernetes.io/docs/reference/access-authn-authz/service-accounts-admin/#:~:text=To%20create%20a%20non%2Dexpiring,with%20that%20generated%20token%20data.)
+
+
 
 Create Secret for Service Account and Generate Token
 
