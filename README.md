@@ -81,13 +81,14 @@ Green-deployment-Jenkins:
 
 Switch Traffic:
 
+![1_IUOISU7dXdyBrky6pta5hQ](https://github.com/user-attachments/assets/db0d1fcb-9bb9-4693-aa2b-1b8e8e3f84df)
+
 ![Screenshot from 2024-10-22 13-32-49](https://github.com/user-attachments/assets/50228c49-63c1-4ace-8000-3dff7a62ce59)
 
 Working:
 
 ![Screenshot from 2024-10-22 13-33-30](https://github.com/user-attachments/assets/72171d75-5ab9-4ff3-bc9e-bccc69359254)
 
-Vedio:
 
 
 
